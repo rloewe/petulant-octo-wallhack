@@ -3,6 +3,9 @@ petulant-octo-wallhack
 This project is nothing serious and will propably never be.
 It's a loose idea about an insane programming language which we'll try to implement some day.
 
+## Name ideas
+- An programminglanguage
+
 ## Implementation ideas
 - Improbable numbers
     - An example could be that division by zero will give an improbable number
