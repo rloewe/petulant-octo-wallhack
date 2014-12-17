@@ -5,6 +5,7 @@ It's a loose idea about an insane programming language which we'll try to implem
 
 ## Name ideas
 - An programminglanguage
+- Pow
 
 ## Implementation ideas
 - Improbable numbers
