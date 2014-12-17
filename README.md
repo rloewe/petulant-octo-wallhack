@@ -16,3 +16,7 @@ It's a loose idea about an insane programming language which we'll try to implem
     - infinite + 1 should be a working case as should infinite - 1
 - Maybe type
     - not in the Haskell/SML sense, but a computation that might happen, and might not. True/false/maybe
+
+## Syntax ideas
+- Possibly Lisp syntax
+- Not be indentation based
