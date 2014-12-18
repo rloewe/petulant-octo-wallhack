@@ -17,6 +17,8 @@ It's a loose idea about an insane programming language which we'll try to implem
     - infinite + 1 should be a working case as should infinite - 1
 - Maybe type
     - not in the Haskell/SML sense, but a computation that might happen, and might not. True/false/maybe
+- Define scoping type
+    - on each function/method/watevah you can define what type of scoping you want (ie. either static or dynamic)
 
 ## Syntax ideas
 - Possibly Lisp syntax
