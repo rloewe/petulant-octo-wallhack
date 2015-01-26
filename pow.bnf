@@ -22,6 +22,7 @@ Expr       -> Expr '<=' Expr
 Expr       -> Expr '>' Expr
 Expr       -> Expr '>=' Expr
 Expr       -> Expr '↔' Expr
+Expr       -> Expr '==' Expr
 Expr       -> Variable
 Expr       -> '⊥'
 Expr       -> '⊤'
@@ -31,7 +32,7 @@ Expr       -> '✎' Expr
 Expr       -> 'giveback' Expr
 Expr       -> '↜' Expr
 String     -> '|' [stuff] '|'
-Assignment -> Variable '=' Expr
+Assignment -> Variable '←' Expr
 Call       -> '<' Args '>' ↝ FunName
 Call       -> 'give' '<' Args '>' 'to' FunName
 If         -> Expr '?' '/' [Expr] '\' Else
