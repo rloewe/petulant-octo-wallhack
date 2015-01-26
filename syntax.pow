@@ -36,7 +36,7 @@ static main<> /
   \
 
   ~i = 0;
-  ⟳ ~i < 10 /
+  ⟳ ~i < 10? /
     ✎ |Looping again|:
     ~i = ~i + 1:
   \
