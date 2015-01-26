@@ -2,13 +2,13 @@
 module Parse where
 
 import Text.ParserCombinators.Parsec
-import PowAST
+import qualified PowAST as Ast
 
 -- We have many fun !!
-program :: Parser Program
+program :: Parser Ast.Program
 program = many fun
 
-fun :: Parser Fun
+fun :: Parser Ast.Fun
 fun = do
   sc <- scoping
   fn <- funName
@@ -18,4 +18,31 @@ fun = do
   _  <- char '/'
   bd <- funBody
   _  <- char '\\'
-  return $ Fun fn sc ps bd
+  return $ Ast.Fun fn sc ps bd
+
+scoping :: Parser Ast.Scoping
+scoping = do
+  scope <- string "static" <|> string "dynamic"
+  return $ if scope == "static" then Ast.StaticScoping else Ast.DynamicScoping
+
+funName :: Parser Ast.FunName
+funName = do
+  name <- many $ oneOf "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM_"
+  return name
+
+-- ~a
+-- ~a, ~b
+params :: Parser [Ast.Param]
+params = undefined
+
+funBody :: Parser [Ast.Statement]
+funBody = many statement
+
+statement :: Parser Ast.Statement
+statement = do
+  e <- expr
+  _ <- char ':'
+  return e
+
+expr :: Parser Ast.Expr
+expr = undefined
