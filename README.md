@@ -21,10 +21,13 @@ It's a loose idea about an insane programming language which we'll try to implem
     - on each function/method/watevah you can define what type of scoping you want (ie. either static or dynamic)
 - ☃ operator which holds the last used lambda expression
 
+- dynamic types
+
 ## Syntax ideas
 - Possibly Lisp syntax
 - Not be indentation based
 - MIPS like array indexing, like this: 5(array) for the sixth element
+- New ternaries, other than "if then else", for loop, either
 - if we want pointers, then these could be used: ☞ or ☛
 - True and false symbol ideas:
     - ⊤ (true) and ⊥ (false)
