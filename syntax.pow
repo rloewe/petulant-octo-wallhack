@@ -42,7 +42,7 @@ static main<> /
   \
 
   ~array = #1,2,3:
-  5(~array)
+  5(~array):
 
   {{ maybe }}
   ~something_maybe = ⟛:
