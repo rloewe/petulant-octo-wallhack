@@ -84,10 +84,12 @@ expr =
     equal = chainr1 notEqual (symbol "=" >> return Ast.Equal)
     notEqual = chainr1 lessgreater (symbol "≠" >> return Ast.NotEqual)
     lessgreater = chainl1 strConcat binOp
-      where binOp = (try $ symbol ">=" >> return Ast.GreaterEq) <|>
-                    (try $ symbol "<=" >> return Ast.LessEq) <|>
-                    (try $ symbol "<" >> return Ast.Less) <|>
-                    (try $ symbol ">" >> return Ast.Greater)
+      where
+        binOp =
+          (try $ (symbol ">=" <|> symbol "≥") >> return Ast.GreaterEq) <|>
+          (try $ (symbol "<=" <|> symbol "≤") >> return Ast.LessEq) <|>
+          (symbol "<" >> return Ast.Less) <|>
+          (symbol ">" >> return Ast.Greater)
     strConcat = chainl1 plusminus binOp
       where binOp = symbol "↔" >> return Ast.StrConcat
     plusminus = chainl1 timesdivide binOp
