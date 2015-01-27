@@ -18,24 +18,24 @@ type Args = [Expr]
 
 data Expr = Assign Expr Expr -- done
           | Call Args FunName -- done
-          | If Expr [Expr] [Expr]
+          | If Expr [Expr] [Expr] -- done
           | While Expr [Expr] -- done
-          | Plus Expr Expr -- done (maybe)
-          | Minus Expr Expr -- done (maybe)
-          | Times Expr Expr -- done (maybe)
-          | Divide Expr Expr -- done (maybe)
-          | Less Expr Expr -- done (sorta)
-          | LessEq Expr Expr -- done (sorta)
+          | Plus Expr Expr -- done
+          | Minus Expr Expr -- done
+          | Times Expr Expr -- done
+          | Divide Expr Expr -- done
+          | Less Expr Expr -- done
+          | LessEq Expr Expr -- done
           | Greater Expr Expr -- done
           | GreaterEq Expr Expr -- done
-          | StrConcat Expr Expr
+          | StrConcat Expr Expr -- done
           | Var Variable -- done
           | ArrayIndex Expr Expr
           | ArrayLit [Expr]
           | BoolLit Troolean
           | StrLit String
-          | Write Expr
-          | GiveBack Expr
+          | Write Expr -- done
+          | GiveBack Expr -- done
           | Constant Type
           deriving (Show)
 

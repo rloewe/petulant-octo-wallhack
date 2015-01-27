@@ -70,7 +70,11 @@ parens p = symbol "(" *> p <* symbol ")"
 
 expr :: Parser Ast.Expr
 expr =
-  giveback <|> conditional <|> loop <|> binOpChain
+  giveback
+  <|> write
+  <|> conditional
+  <|> loop
+  <|> binOpChain
 
   where
     binOpChain = assignment
@@ -92,6 +96,10 @@ expr =
                              <|> numbers
                              <|> variable
                              <|> call
+    write = do
+      symbol "✎"
+      e <- expr
+      return $ Ast.Write e
     variable = do
       id <- identifier
       return $ Ast.Var id
