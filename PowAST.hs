@@ -31,7 +31,7 @@ data Expr = Assign Expr Expr -- done
           | StrConcat Expr Expr -- done
           | Var Variable -- done
           | ArrayIndex Expr Expr -- done
-          | ArrayLit [Expr]
+          | ArrayLit [Expr] -- done
           | BoolLit Troolean
           | StrLit String
           | Write Expr -- done

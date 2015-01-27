@@ -71,6 +71,7 @@ parens p = symbol "(" *> p <* symbol ")"
 expr :: Parser Ast.Expr
 expr =
   giveback
+  <|> arrayLit
   <|> write
   <|> conditional
   <|> loop
@@ -102,6 +103,10 @@ expr =
       ns <- numbers
       e <- parens expr
       return $ Ast.ArrayIndex ns e
+    arrayLit = do
+      symbol "#"
+      exprs <- sepByCommas expr
+      return $ Ast.ArrayLit exprs
     write = do
       symbol "✎"
       e <- expr
