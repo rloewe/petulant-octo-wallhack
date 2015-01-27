@@ -60,10 +60,12 @@ identifier = lexeme $ do
   return id
 
 statement :: Parser Ast.Statement
-statement = do
-  e <- expr
-  _ <- symbol ":"
-  return e
+statement = try statement' <|> conditional <|> loop
+  where
+    statement' = do
+      e <- expr
+      _ <- symbol ":"
+      return e
 
 parens :: Parser a -> Parser a
 parens p = symbol "(" *> p <* symbol ")"
@@ -140,14 +142,19 @@ expr =
       symbol "↝"
       funName <- name
       return $ Ast.Call args funName
-    loop = do
-      symbol "⟳"
-      condition <- expr
-      symbol "?"
-      body <- compoundStatement
-      return $ Ast.While condition body
-    -- TODO: Make this less ugly!
-    conditional = try conditionalWithElse <|> conditionalWithoutElse
+
+loop :: Parser Ast.Expr
+loop = do
+  symbol "⟳"
+  condition <- expr
+  symbol "?"
+  body <- compoundStatement
+  return $ Ast.While condition body
+
+-- TODO: Make this less ugly!
+conditional :: Parser Ast.Expr
+conditional = try conditionalWithElse <|> conditionalWithoutElse
+  where
     conditionalWithoutElse = do
       symbol "¿"
       condition <- expr
