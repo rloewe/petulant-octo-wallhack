@@ -1,6 +1,8 @@
 (static | dynamic) main<> /
 \
 
+static id<~a> / ↜ a: \
+
 static add<~a, ~b> /
   ↜ a + b:
 \

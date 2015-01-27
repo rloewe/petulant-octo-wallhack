@@ -7,6 +7,7 @@ data Fun = Fun { funName    :: Id
                , funScoping :: Scoping
                , funParams  :: [Param]
                , funBody    :: [Statement] }
+               deriving (Show)
 
 type Id = String
 type FunName = Id
@@ -35,6 +36,7 @@ data Expr = Assign Variable Expr
           | StrLit String
           | Write Expr
           | GiveBack Expr
+          | Constant Type
           deriving (Show)
 
 data Scoping = StaticScoping | DynamicScoping
@@ -42,3 +44,6 @@ data Scoping = StaticScoping | DynamicScoping
 
 data Troolean = Yes | No | CouldHappen
               deriving (Show)
+
+data Type = Integer Int
+          deriving (Show)
