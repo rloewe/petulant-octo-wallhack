@@ -33,7 +33,7 @@ data Expr = Assign Expr Expr -- done
           | ArrayIndex Expr Expr -- done
           | ArrayLit [Expr] -- done
           | TroolLit Troolean -- done
-          | StrLit String
+          | StrLit String -- done (except for escaping)
           | Write Expr -- done
           | GiveBack Expr -- done
           | Constant Type

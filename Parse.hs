@@ -98,12 +98,19 @@ expr =
                          <|> (parens expr)
                          <|> numbers
                          <|> trool
+                         <|> string
                          <|> variable
                          <|> call
     -- NOTE: Why can't we use $ here?!
     trool = (symbol "⊥" >> return (Ast.TroolLit Ast.No)) <|>
             (symbol "⊤" >> return (Ast.TroolLit Ast.Yes)) <|>
             (symbol "⟛" >> return (Ast.TroolLit Ast.CouldHappen))
+    -- TODO: Add escaping?!
+    string = do
+      char '|'
+      s <- many $ noneOf "|"
+      symbol "|"
+      return $ Ast.StrLit s
     arrayIndex = do
       ns <- numbers
       e <- parens expr
