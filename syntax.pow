@@ -30,6 +30,8 @@ static main<> /
   ~something_true = ⊤:
   ~something_false = ⊥:
 
+  1 == 1? / 123: \
+
   ~something_true == ⊤? /
     {{ ~something_true? }}
     ~bar:

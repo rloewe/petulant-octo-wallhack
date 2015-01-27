@@ -16,14 +16,14 @@ type Param = Variable
 type Statement = Expr
 type Args = [Expr]
 
-data Expr = Assign Variable Expr
-          | Call Args FunName
+data Expr = Assign Variable Expr -- done
+          | Call Args FunName -- done
           | If Expr [Expr] [Expr]
           | While Expr [Expr]
-          | Plus Expr Expr
-          | Minus Expr Expr
-          | Times Expr Expr
-          | Divide Expr Expr
+          | Plus Expr Expr -- done (maybe)
+          | Minus Expr Expr -- done (maybe)
+          | Times Expr Expr -- done (maybe)
+          | Divide Expr Expr -- done (maybe)
           | Less Expr Expr
           | LessEq Expr Expr
           | Greater Expr Expr
