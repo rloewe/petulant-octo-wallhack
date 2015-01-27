@@ -32,7 +32,7 @@ data Expr = Assign Expr Expr -- done
           | Var Variable -- done
           | ArrayIndex Expr Expr -- done
           | ArrayLit [Expr] -- done
-          | BoolLit Troolean
+          | TroolLit Troolean -- done
           | StrLit String
           | Write Expr -- done
           | GiveBack Expr -- done

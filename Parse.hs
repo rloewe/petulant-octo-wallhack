@@ -97,8 +97,13 @@ expr =
                          try arrayIndex
                          <|> (parens expr)
                          <|> numbers
+                         <|> trool
                          <|> variable
                          <|> call
+    -- NOTE: Why can't we use $ here?!
+    trool = (symbol "⊥" >> return (Ast.TroolLit Ast.No)) <|>
+            (symbol "⊤" >> return (Ast.TroolLit Ast.Yes)) <|>
+            (symbol "⟛" >> return (Ast.TroolLit Ast.CouldHappen))
     arrayIndex = do
       ns <- numbers
       e <- parens expr
