@@ -20,9 +20,7 @@ fun = do
   _  <- lexeme $ char '⊂'
   ps <- lexeme $ params
   _  <- lexeme $ char '⊃'
-  _  <- lexeme $ char '/'
-  bd <- lexeme $ funBody
-  _  <- lexeme $ char '\\'
+  bd <- lexeme compoundStatement
   return $ Ast.Fun fn sc ps bd
 
 scoping :: Parser Ast.Scoping
@@ -60,9 +58,6 @@ identifier = lexeme $ do
   _ <- char '~'
   id <- name
   return id
-
-funBody :: Parser [Ast.Statement]
-funBody = many statement
 
 statement :: Parser Ast.Statement
 statement = do
@@ -118,18 +113,31 @@ expr =
       symbol "⟳"
       condition <- expr
       symbol "?"
-      symbol "/"
-      body <- many statement
-      symbol "\\"
+      body <- compoundStatement
       return $ Ast.While condition body
-    conditional = do
+    -- TODO: Make this less ugly!
+    conditional = try conditionalWithElse <|> conditionalWithoutElse
+    conditionalWithoutElse = do
       symbol "¿"
       condition <- expr
       symbol "?"
-      symbol "/"
-      thenBranch <- many statement
-      symbol "\\"
+      thenBranch <- compoundStatement
       return $ Ast.If condition thenBranch []
+    conditionalWithElse = do
+      symbol "¿"
+      condition <- expr
+      symbol "?"
+      thenBranch <- compoundStatement
+      symbol "!"
+      elseBranch <- compoundStatement
+      return $ Ast.If condition thenBranch elseBranch
+
+compoundStatement :: Parser [Ast.Statement]
+compoundStatement = do
+  symbol "/"
+  body <- many statement
+  symbol "\\"
+  return body
 
 orUnderscore :: (Char -> Bool) -> Char -> Bool
 orUnderscore f c = f c || c == '_'

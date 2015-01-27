@@ -19,7 +19,7 @@ type Args = [Expr]
 data Expr = Assign Expr Expr -- done
           | Call Args FunName -- done
           | If Expr [Expr] [Expr]
-          | While Expr [Expr]
+          | While Expr [Expr] -- done
           | Plus Expr Expr -- done (maybe)
           | Minus Expr Expr -- done (maybe)
           | Times Expr Expr -- done (maybe)
