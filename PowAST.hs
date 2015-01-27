@@ -24,6 +24,7 @@ data Expr = Assign Expr Expr -- done
           | Minus Expr Expr -- done
           | Times Expr Expr -- done
           | Divide Expr Expr -- done
+          | Equal Expr Expr -- done
           | Less Expr Expr -- done
           | LessEq Expr Expr -- done
           | Greater Expr Expr -- done

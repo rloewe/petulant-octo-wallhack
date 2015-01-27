@@ -12,7 +12,7 @@ static main⊂⊃ /
   ⊂⊂1, 2⊃ ↝ add, 10⊃ ↝ add:
   ✎ ⊂⊂1, 2⊃ ↝ add, 10⊃ ↝ add:
 
-  ¿ ~foo ? /
+  ¿ ~foo = ⊤ ? /
     ~bar:
   \
 

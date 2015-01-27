@@ -80,7 +80,8 @@ expr =
 
   where
     binOpChain = assignment
-    assignment = chainr1 lessgreater (symbol "←" >> return Ast.Assign)
+    assignment = chainr1 equal (symbol "←" >> return Ast.Assign)
+    equal = chainr1 lessgreater (symbol "=" >> return Ast.Equal)
     lessgreater = chainl1 strConcat binOp
       where binOp = (try $ symbol ">=" >> return Ast.GreaterEq) <|>
                     (try $ symbol "<=" >> return Ast.LessEq) <|>
