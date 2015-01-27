@@ -30,7 +30,7 @@ data Expr = Assign Expr Expr -- done
           | GreaterEq Expr Expr -- done
           | StrConcat Expr Expr -- done
           | Var Variable -- done
-          | ArrayIndex Expr Expr
+          | ArrayIndex Expr Expr -- done
           | ArrayLit [Expr]
           | BoolLit Troolean
           | StrLit String

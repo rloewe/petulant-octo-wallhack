@@ -92,10 +92,16 @@ expr =
     timesdivide = chainl1 parseRealThing binOp
       where binOp = (symbol "*" >> return Ast.Times) <|>
                     (symbol "/" >> return Ast.Divide)
-            parseRealThing = (parens expr)
-                             <|> numbers
-                             <|> variable
-                             <|> call
+            parseRealThing =
+                         try arrayIndex
+                         <|> (parens expr)
+                         <|> numbers
+                         <|> variable
+                         <|> call
+    arrayIndex = do
+      ns <- numbers
+      e <- parens expr
+      return $ Ast.ArrayIndex ns e
     write = do
       symbol "✎"
       e <- expr
