@@ -16,7 +16,7 @@ type Param = Variable
 type Statement = Expr
 type Args = [Expr]
 
-data Expr = Assign Variable Expr -- done
+data Expr = Assign Expr Expr -- done
           | Call Args FunName -- done
           | If Expr [Expr] [Expr]
           | While Expr [Expr]
@@ -24,12 +24,12 @@ data Expr = Assign Variable Expr -- done
           | Minus Expr Expr -- done (maybe)
           | Times Expr Expr -- done (maybe)
           | Divide Expr Expr -- done (maybe)
-          | Less Expr Expr
-          | LessEq Expr Expr
-          | Greater Expr Expr
-          | GreaterEq Expr Expr
+          | Less Expr Expr -- done (sorta)
+          | LessEq Expr Expr -- done (sorta)
+          | Greater Expr Expr -- done
+          | GreaterEq Expr Expr -- done
           | StrConcat Expr Expr
-          | Var Variable
+          | Var Variable -- done
           | ArrayIndex Expr Expr
           | ArrayLit [Expr]
           | BoolLit Troolean

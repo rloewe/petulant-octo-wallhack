@@ -15,11 +15,11 @@ program = do
 
 fun :: Parser Ast.Fun
 fun = do
-  sc <- lexeme $ scoping
+  sc <- lexeme scoping
   fn <- lexeme $ funName
-  _  <- lexeme $ char '<'
+  _  <- lexeme $ char '⊂'
   ps <- lexeme $ params
-  _  <- lexeme $ char '>'
+  _  <- lexeme $ char '⊃'
   _  <- lexeme $ char '/'
   bd <- lexeme $ funBody
   _  <- lexeme $ char '\\'
@@ -31,6 +31,7 @@ scoping = (symbol "static" >> return Ast.StaticScoping) <|>
 
 name :: Parser String
 name = do
+  -- NOTE: Maybe allow name to start with numbers
   -- [a-zA-Z_][a-zA-Z0-9_]*
   first <- satisfy (orUnderscore isAlpha)
   rest <- many $ satisfy (orUnderscore isAlphaNum)
@@ -74,60 +75,60 @@ parens p = symbol "(" *> p <* symbol ")"
 
 expr :: Parser Ast.Expr
 expr =
-      lessgreater
-  <|> plusminus
-  <|> timesdivide
-  <|> giveback
-  <|> assignment
-  <|> call
-  <|> numbers
-  <|> variable
-  -- <|> conditional
+  giveback <|> conditional <|> loop <|> binOpChain
+
   where
-    lessgreater = chainl1 plusminus binOp
-                    -- how to handle same look ahead?!
-      where binOp = -- (symbol ">=" >> return Ast.GreaterEq) <|>
-                    -- (symbol "<=" >> return Ast.LessEq) <|>
-                    (symbol "<" >> return Ast.Less) <|>
-                    (symbol ">" >> return Ast.Greater)
+    binOpChain = assignment
+    assignment = chainr1 lessgreater (symbol "←" >> return Ast.Assign)
+    lessgreater = chainl1 strConcat binOp
+      where binOp = (try $ symbol ">=" >> return Ast.GreaterEq) <|>
+                    (try $ symbol "<=" >> return Ast.LessEq) <|>
+                    (try $ symbol "<" >> return Ast.Less) <|>
+                    (try $ symbol ">" >> return Ast.Greater)
+    strConcat = chainl1 plusminus binOp
+      where binOp = symbol "↔" >> return Ast.StrConcat
     plusminus = chainl1 timesdivide binOp
       where binOp = (symbol "+" >> return Ast.Plus) <|>
                     (symbol "-" >> return Ast.Minus)
     timesdivide = chainl1 parseRealThing binOp
       where binOp = (symbol "*" >> return Ast.Times) <|>
                     (symbol "/" >> return Ast.Divide)
-            parseRealThing = (parens expr) <|> numbers
+            parseRealThing = (parens expr)
+                             <|> numbers
+                             <|> variable
+                             <|> call
     variable = do
       id <- identifier
       return $ Ast.Var id
     numbers = do
-      ns <- many1 digit
+      ns <- lexeme $ many1 digit
       return $ Ast.Constant $ Ast.Integer (read ns)
     giveback = do
       _ <- symbol "giveback" <|> symbol "↜"
       expr' <- expr
       return $ Ast.GiveBack expr'
-    assignment = do
-      id <- identifier
-      _  <- symbol "←"
-      value <- expr
-      return $ Ast.Assign id value
     call = do
-      symbol "<"
+      symbol "⊂"
       args <- arguments
-      symbol ">"
+      symbol "⊃"
       symbol "↝"
       funName <- name
       return $ Ast.Call args funName
-
-    conditional = do
+    loop = do
+      symbol "⟳"
       condition <- expr
-      char '?'
-      -- TODO: Pull this into `compound` parser
-      char '/'
+      symbol "?"
+      symbol "/"
+      body <- many statement
+      symbol "\\"
+      return $ Ast.While condition body
+    conditional = do
+      symbol "¿"
+      condition <- expr
+      symbol "?"
+      symbol "/"
       thenBranch <- many statement
-      char '\\'
-      -- TODO: How to make else branch? Which may or may not be there?
+      symbol "\\"
       return $ Ast.If condition thenBranch []
 
 orUnderscore :: (Char -> Bool) -> Char -> Bool

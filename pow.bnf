@@ -1,6 +1,6 @@
 Program    -> [Fun]
-Fun        -> 'static' FunName '<' Params '>' '/' FunBody '\'
-Fun        -> 'dynamic' FunName '<' Params '>' '/' FunBody '\'
+Fun        -> 'static' FunName '⊂' Params '⊃' '/' FunBody '\'
+Fun        -> 'dynamic' FunName '⊂' Params '⊃' '/' FunBody '\'
 FunName    -> Id
 Variable   -> '~' Id
 Id         -> [a-zA-Z_]+
@@ -22,7 +22,7 @@ Expr       -> Expr '<=' Expr
 Expr       -> Expr '>' Expr
 Expr       -> Expr '>=' Expr
 Expr       -> Expr '↔' Expr
-Expr       -> Expr '==' Expr
+Expr       -> Expr '=' Expr
 Expr       -> Variable
 Expr       -> '⊥'
 Expr       -> '⊤'
@@ -33,9 +33,9 @@ Expr       -> 'giveback' Expr
 Expr       -> '↜' Expr
 String     -> '|' [stuff] '|'
 Assignment -> Variable '←' Expr
-Call       -> '<' Args '>' ↝ FunName
-Call       -> 'give' '<' Args '>' 'to' FunName
-If         -> Expr '?' '/' [Expr] '\' Else
+Call       -> '⊂' Args '⊃' ↝ FunName
+Call       -> 'give' '⊂' Args '⊃' 'to' FunName
+If         -> '¿' Expr '?' '/' [Expr] '\' Else
 Else       -> '!' '/' [Expr] '\'
 Else       ->
 Loop       -> '⟳' Expr '?' '/' [Expr] '\'
