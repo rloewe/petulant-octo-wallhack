@@ -1,61 +1,46 @@
-(static | dynamic) main<> /
+static add⊂~a, ~b⊃ /
+  ↜ ~a + ~b:
 \
 
-static id<~a> / ↜ a: \
+static main⊂⊃ /
+  ~foo ← 1:
+  ~two_foos ← ~foo * 2:
+  ~with_newline ← |Hello 'n' world|:
+  ~with_pipe ← ~with_pipe ↔ |!!|:
 
-static add<~a, ~b> /
-  ↜ a + b:
-\
+  ⊂1, 2⊃ ↝ add:
+  ⊂⊂1, 2⊃ ↝ add, 10⊃ ↝ add:
+  ✎ ⊂⊂1, 2⊃ ↝ add, 10⊃ ↝ add:
 
-static add<~a, ~b> /
-  giveback a + b:
-\
-
-static main<> /
-  ~foo = 1:
-  ~two_foos = ~foo * 2:
-  ~with_newline = |Hello 'n' world|:
-  ~with_pipe = with_pipe ↔ |!!|:
-
-  <1, 2> ↝ add:
-  <<1, 2> ↝ add, 10> ↝ add:
-  ✎ <<1, 2> ↝ add, 10> ↝ add:
-
-  {{ comment }}
-
-  ~foo == 1? /
+  ¿ ~foo ? /
     ~bar:
   \
 
-  ~something_true = ⊤:
-  ~something_false = ⊥:
+  ~something_true ← ⊤:
+  ~something_false ← ⊥:
 
-  1 == 1? / 123: \
+  ¿ 1 ? / 123: \
 
-  ~something_true == ⊤? /
-    {{ ~something_true? }}
+  ¿ ~something_true ? /
     ~bar:
   \ ! /
     ✎ |its false!|:
   \
 
-  ~i = 0;
-  ⟳ ~i < 10? /
+  ~i ← 0:
+  ⟳ ~i < 10 ? /
     ✎ |Looping again|:
-    ~i = ~i + 1:
+    ~i ← ~i + 1:
   \
 
-  ~array = #1,2,3:
-  1 + 5(~array) + 2:
+  ~array ← #1,2,3:
+  5(~array):
 
-  {{ maybe }}
-  ~something_maybe = ⟛:
+  ~something_maybe ← ⟛:
 
-  ~something_maybe? /
+  ¿ ~something_maybe ? /
     ✎ |maybe was true|:
   \ ! /
-    ✎ |maybe was false|:
-  /
-
-  {{ snow man, lambda }}
+    ✎ |maybe was false!|:
+  \
 \
