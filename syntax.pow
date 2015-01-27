@@ -16,6 +16,13 @@ static main⊂⊃ /
     ~bar:
   \
 
+  ¿ ~foo ≠ ⊤ ? /
+    ~bar:
+  \ ! /
+    ~foo:
+    ✎ ⊂⊂1, 2⊃ ↝ add, 10⊃ ↝ add:
+  \
+
   ~something_true ← ⊤:
   ~something_false ← ⊥:
 
