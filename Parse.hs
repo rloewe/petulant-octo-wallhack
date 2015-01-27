@@ -73,7 +73,6 @@ parens p = symbol "(" *> p <* symbol ")"
 expr :: Parser Ast.Expr
 expr =
   giveback
-  <|> arrayLit
   <|> write
   <|> conditional
   <|> loop
@@ -98,12 +97,12 @@ expr =
             parseRealThing =
                          try arrayIndex
                          <|> (parens expr)
+                         <|> arrayLit
                          <|> numbers
                          <|> trool
                          <|> string
                          <|> variable
                          <|> call
-    -- NOTE: Why can't we use $ here?!
     trool = (symbol "⊥" >> return (Ast.TroolLit Ast.No)) <|>
             (symbol "⊤" >> return (Ast.TroolLit Ast.Yes)) <|>
             (symbol "⟛" >> return (Ast.TroolLit Ast.CouldHappen))
