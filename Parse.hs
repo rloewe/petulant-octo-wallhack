@@ -25,15 +25,20 @@ scoping = do
   scope <- string "static" <|> string "dynamic"
   return $ if scope == "static" then Ast.StaticScoping else Ast.DynamicScoping
 
-funName :: Parser Ast.FunName
-funName = do
-  name <- many $ oneOf "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM_"
-  return name
+name :: Parser String
+name = many $ oneOf "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM_"
 
--- ~a
--- ~a, ~b
+funName :: Parser Ast.FunName
+funName = name
+
 params :: Parser [Ast.Param]
-params = undefined
+params = identifier `sepBy` char ','
+
+identifier :: Parser Ast.Id
+identifier = do
+  _ <- char '~'
+  id <- name
+  return id
 
 funBody :: Parser [Ast.Statement]
 funBody = many statement
