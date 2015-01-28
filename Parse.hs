@@ -81,8 +81,8 @@ expr =
   where
     binOpChain = assignment
     assignment = chainr1 equal (symbol "←" >> return Ast.Assign)
-    equal = chainr1 notEqual (symbol "=" >> return Ast.Equal)
-    notEqual = chainr1 lessgreater (symbol "≠" >> return Ast.NotEqual)
+    equal = chainl1 notEqual (symbol "=" >> return Ast.Equal)
+    notEqual = chainl1 lessgreater (symbol "≠" >> return Ast.NotEqual)
     lessgreater = chainl1 strConcat binOp
       where
         binOp =
