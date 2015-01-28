@@ -1,5 +1,7 @@
 
-module Parse where
+module Parse
+( program
+) where
 
 import Control.Applicative hiding (many, (<|>))
 import Data.Char
@@ -133,7 +135,7 @@ expr =
       return $ Ast.Var id
     numbers = do
       ns <- lexeme $ many1 digit
-      return $ Ast.Constant $ Ast.Integer (read ns)
+      return $ Ast.IntLit (read ns)
     giveback = do
       _ <- symbol "giveback" <|> symbol "↜"
       expr' <- expr

@@ -33,12 +33,13 @@ data Expr = Assign Expr Expr -- done
           | StrConcat Expr Expr -- done
           | Var Variable -- done
           | ArrayIndex Expr Expr -- done
+          | Write Expr -- done
+          | GiveBack Expr -- done
+          | Constant Value
           | ArrayLit [Expr] -- done
           | TroolLit Troolean -- done
           | StrLit String -- done (except for escaping)
-          | Write Expr -- done
-          | GiveBack Expr -- done
-          | Constant Type
+          | IntLit Int -- done
           deriving (Show)
 
 data Scoping = StaticScoping | DynamicScoping
@@ -47,5 +48,8 @@ data Scoping = StaticScoping | DynamicScoping
 data Troolean = Yes | No | CouldHappen
               deriving (Show)
 
-data Type = Integer Int
-          deriving (Show)
+data Value = ValueInteger Int
+           | ValueTroolean Troolean
+           | ValueString String
+           | ValueArray [Value]
+           deriving (Show)
