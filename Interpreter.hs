@@ -86,6 +86,7 @@ evalExpr vtab ftab expr = case expr of
       ValueTroolean CouldHappen -> evalBlock vtab ftab thenBranch
       _ -> evalBlock vtab ftab thenBranch
 
+  -- TODO: Implement this
   While _ _ -> error "while is not implemented yet"
 
   Plus e1 e2 -> do
@@ -172,6 +173,8 @@ evalExpr vtab ftab expr = case expr of
     writeValue value
     return (ValueTroolean CouldHappen, vtab')
 
+  -- NOTE: Calls right now just giveback the last statement
+  --       This should probably be changed once we have proper giveback
   Call argExprs fname -> do
     case M.lookup fname ftab of
       Just fun -> do
@@ -180,8 +183,10 @@ evalExpr vtab ftab expr = case expr of
           StaticScoping -> M.empty
           DynamicScoping -> vtab'
         let actualArgs = bindArgs (funParams fun) argValues baseVtab
-        (result, _) <- evalBlock actualArgs ftab (funBody fun)
-        return (result, vtab')
+        (result, vtab'') <- evalBlock actualArgs ftab (funBody fun)
+        return $ case funScoping fun of
+          StaticScoping -> (result, vtab')
+          DynamicScoping -> (result, vtab'')
       Nothing -> error $ fname ++ " is wat"
     where
       evalExprs (values, vtab') expr = do
@@ -191,10 +196,12 @@ evalExpr vtab ftab expr = case expr of
       bindArgs :: [Param] -> [Value] -> SymTab -> SymTab
       bindArgs params values vtab =
         if length params == length values
-        then foldl (\vtab' (param, value) -> M.insert param value vtab') vtab (zip params values)
+        then foldl (\vtab' (param, value) ->
+          M.insert param value vtab') vtab (zip params values)
         else error "number of arguments are wat"
 
-  GiveBack _ -> error "giveback is not implemented yet"
+  -- TODO: Actually giveback
+  GiveBack expr -> evalExpr vtab ftab expr
 
   Constant value -> return (value, vtab)
   TroolLit trool -> return (ValueTroolean trool, vtab)

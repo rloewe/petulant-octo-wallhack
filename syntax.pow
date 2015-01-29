@@ -4,9 +4,10 @@ static add⊂~a, ~b⊃ /
 
 static main⊂⊃ /
   ~foo ← 1:
+  ~bar ← |bar|:
   ~two_foos ← ~foo * 2:
   ~with_newline ← |Hello 'n' world|:
-  ~with_pipe ← ~with_pipe ↔ |!!|:
+  ~with_pipe ← ~with_newline ↔ |!!|:
 
   ⊂1, 2⊃ ↝ add:
   ⊂⊂1, 2⊃ ↝ add, 10⊃ ↝ add:

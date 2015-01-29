@@ -1,12 +1,12 @@
-dynamic do_nasty_stuff⊂⊃ /
-  ~something_true:
+static foo⊂⊃ /
+  ~list ← #⊥,⊤:
 \
 
 static main⊂⊃ /
-  ~something_true ← ⊤:
-  ⊂⊃ ↝ do_nasty_stuff:
+  ~list ← #⊤,⊥:
+  ⊂⊃ ↝ foo:
 
-  ¿ ~something_true ? /
+  ¿ 0(~list) ? /
     ✎ |its true!|:
   \ ! /
     ✎ |its false!|:
