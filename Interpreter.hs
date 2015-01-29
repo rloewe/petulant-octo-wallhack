@@ -78,8 +78,6 @@ evalExpr vtab ftab expr = case expr of
           _ -> error "unbound/not array waat"
       _ -> error "You no can make ωign here"
 
-  Call _ _ -> undefined
-
   If cond thenBranch elseBranch -> do
     (condValue, vtab') <- evalExpr vtab ftab cond
     case condValue of
@@ -88,7 +86,7 @@ evalExpr vtab ftab expr = case expr of
       ValueTroolean CouldHappen -> evalBlock vtab ftab thenBranch
       _ -> evalBlock vtab ftab thenBranch
 
-  While _ _ -> undefined
+  While _ _ -> error "while is not implemented yet"
 
   Plus e1 e2 -> do
     (e1', vtab') <- evalExpr vtab ftab e1
@@ -174,7 +172,29 @@ evalExpr vtab ftab expr = case expr of
     writeValue value
     return (ValueTroolean CouldHappen, vtab')
 
-  GiveBack _ -> undefined
+  Call argExprs fname -> do
+    case M.lookup fname ftab of
+      Just fun -> do
+        (argValues, vtab') <- foldM evalExprs ([], vtab) argExprs
+        baseVtab <- return $ case funScoping fun of
+          StaticScoping -> M.empty
+          DynamicScoping -> vtab'
+        let actualArgs = bindArgs (funParams fun) argValues baseVtab
+        (result, _) <- evalBlock actualArgs ftab (funBody fun)
+        return (result, vtab')
+      Nothing -> error $ fname ++ " is wat"
+    where
+      evalExprs (values, vtab') expr = do
+        (value, vtab'') <- evalExpr vtab' ftab expr
+        return (values++[value], vtab'')
+
+      bindArgs :: [Param] -> [Value] -> SymTab -> SymTab
+      bindArgs params values vtab =
+        if length params == length values
+        then foldl (\vtab' (param, value) -> M.insert param value vtab') vtab (zip params values)
+        else error "number of arguments are wat"
+
+  GiveBack _ -> error "giveback is not implemented yet"
 
   Constant value -> return (value, vtab)
   TroolLit trool -> return (ValueTroolean trool, vtab)
@@ -183,7 +203,7 @@ evalExpr vtab ftab expr = case expr of
 
   Var id -> case M.lookup id vtab of
     Just value -> return (value, vtab)
-    Nothing -> error $ id ++ " is not defined, at least it was wat"
+    Nothing -> error $ "~" ++ id ++ " is not defined, at least it was wat"
 
 insertValueInArr :: Value -> Value -> Value
 insertValueInArr value (ValueArray a) = ValueArray (a ++ [value])

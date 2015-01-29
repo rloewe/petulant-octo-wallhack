@@ -1,5 +1,10 @@
+dynamic do_nasty_stuff⊂⊃ /
+  ~something_true:
+\
+
 static main⊂⊃ /
   ~something_true ← ⊤:
+  ⊂⊃ ↝ do_nasty_stuff:
 
   ¿ ~something_true ? /
     ✎ |its true!|:

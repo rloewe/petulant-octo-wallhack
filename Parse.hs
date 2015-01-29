@@ -145,7 +145,7 @@ expr =
       args <- arguments
       symbol "⊃"
       symbol "↝"
-      funName <- name
+      funName <- lexeme name
       return $ Ast.Call args funName
 
 loop :: Parser Ast.Expr
