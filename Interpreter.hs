@@ -87,7 +87,15 @@ evalExpr vtab ftab expr = case expr of
       _ -> evalBlock vtab ftab thenBranch
 
   -- TODO: Implement this
-  While _ _ -> error "while is not implemented yet"
+  While cond exprs -> do
+    (cond', vtab') <- evalExpr vtab ftab cond
+    case cond' of
+      ValueTroolean No -> return (ValueTroolean CouldHappen, vtab')
+      -- TODO: Make this random
+      ValueTroolean CouldHappen -> return (ValueTroolean CouldHappen, vtab')
+      _ -> do
+        (result, vtab'') <- evalBlock vtab ftab exprs
+        evalExpr vtab'' ftab $ While cond exprs
 
   Plus e1 e2 -> do
     (e1', vtab') <- evalExpr vtab ftab e1
