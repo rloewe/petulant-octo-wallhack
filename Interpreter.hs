@@ -181,10 +181,9 @@ evalExpr vtab ftab expr = case expr of
   StrLit str -> return (ValueString str, vtab)
   IntLit int -> return (ValueInteger int, vtab)
 
-  Var v -> error "Can't eval variables yet..."
-  -- Var v -> case M.lookup v vtab of
-  --   Just (id, value) -> return (value, vtab)
-  --   Nothing -> error "Wat is variable"
+  Var id -> case M.lookup id vtab of
+    Just value -> return (value, vtab)
+    Nothing -> error $ id ++ " is not defined, at least it was wat"
 
 insertValueInArr :: Value -> Value -> Value
 insertValueInArr value (ValueArray a) = ValueArray (a ++ [value])

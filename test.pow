@@ -1,5 +1,7 @@
 static main⊂⊃ /
-  ¿ ⊤ ? /
+  ~something_true ← ⊤:
+
+  ¿ ~something_true ? /
     ✎ |its true!|:
   \ ! /
     ✎ |its false!|:
