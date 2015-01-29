@@ -82,17 +82,24 @@ evalExpr vtab ftab expr = case expr of
     (condValue, vtab') <- evalExpr vtab ftab cond
     case condValue of
       ValueTroolean No -> evalBlock vtab ftab elseBranch
-      -- TODO: Make this random
-      ValueTroolean CouldHappen -> evalBlock vtab ftab thenBranch
+      ValueTroolean CouldHappen -> do
+        gen <- newStdGen
+        let (bool, _) = random (gen) :: (Bool, StdGen)
+        if bool then evalBlock vtab ftab thenBranch
+                else evalBlock vtab ftab elseBranch
       _ -> evalBlock vtab ftab thenBranch
 
-  -- TODO: Implement this
   While cond exprs -> do
     (cond', vtab') <- evalExpr vtab ftab cond
     case cond' of
       ValueTroolean No -> return (ValueTroolean CouldHappen, vtab')
-      -- TODO: Make this random
-      ValueTroolean CouldHappen -> return (ValueTroolean CouldHappen, vtab')
+      ValueTroolean CouldHappen -> do
+        gen <- newStdGen
+        let (bool, _) = random (gen) :: (Bool, StdGen)
+        if bool then (do
+            (result, vtab'') <- evalBlock vtab ftab exprs
+            evalExpr vtab'' ftab $ While cond exprs)
+                else return (ValueTroolean CouldHappen, vtab')
       _ -> do
         (result, vtab'') <- evalBlock vtab ftab exprs
         evalExpr vtab'' ftab $ While cond exprs
@@ -225,21 +232,22 @@ insertValueInArr value (ValueArray a) = ValueArray (a ++ [value])
 insertValueInArr _ _ = error "Why you no gibe array"
 
 writeValue :: Value -> IO ()
-writeValue (ValueString v) = putStrLn v
-writeValue (ValueInteger v) = putStrLn $ show v
-writeValue (ValueTroolean Yes) = putStrLn "true"
-writeValue (ValueTroolean No) = putStrLn "false"
-writeValue (ValueTroolean CouldHappen) = putStrLn "maybe"
-writeValue (ValueArray values) = do
-  putStr "#"
-  writeValueArray values
-  putStr "\n"
-  return ()
+writeValue x = writeValue' x >>= \ _ -> putStrLn ""
     where
-      writeValueArray :: [Value] -> IO ()
-      writeValueArray [] = return ()
-      writeValueArray [v] = writeValue v
-      writeValueArray (v:vs) = writeValue v >>= (\_ ->
-        putStr ", "                       >>= (\_ ->
-        writeValueArray vs
-        ))
+        writeValue' (ValueString v) = putStr v
+        writeValue' (ValueInteger v) = putStr $ show v
+        writeValue' (ValueTroolean Yes) = putStr "true"
+        writeValue' (ValueTroolean No) = putStr "false"
+        writeValue' (ValueTroolean CouldHappen) = putStr "maybe"
+        writeValue' (ValueArray values) = do
+          putStr "#"
+          writeValueArray values
+          return ()
+            where
+              writeValueArray :: [Value] -> IO ()
+              writeValueArray [] = return ()
+              writeValueArray [v] = writeValue' v
+              writeValueArray (v:vs) = writeValue' v >>= (\_ ->
+                putStr ", "                       >>= (\_ ->
+                writeValueArray vs
+                ))
