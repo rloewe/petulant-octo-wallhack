@@ -25,6 +25,11 @@ static main⊂⊃ /
 
   ~something_true ← ⊤:
   ~something_false ← ⊥:
+  ¿ ⊤ ? /
+    ✎ |the true branch|:
+  \ ! /
+    ✎ |the else branch|:
+  \
 
   ¿ 1 ? / 123: \
 

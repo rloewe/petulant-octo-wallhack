@@ -46,10 +46,10 @@ data Scoping = StaticScoping | DynamicScoping
              deriving (Show)
 
 data Troolean = Yes | No | CouldHappen
-              deriving (Show)
+              deriving (Show, Eq)
 
 data Value = ValueInteger Int
            | ValueTroolean Troolean
            | ValueString String
            | ValueArray [Value]
-           deriving (Show)
+           deriving (Show, Eq)
