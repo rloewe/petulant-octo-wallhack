@@ -24,6 +24,7 @@ Expr       -> Expr '>=' Expr
 Expr       -> Expr '↔' Expr
 Expr       -> Expr '=' Expr
 Expr       -> Expr '≠' Expr
+Expr       -> Expr '&&' Expr
 Expr       -> Variable
 Expr       -> '⊥'
 Expr       -> '⊤'
