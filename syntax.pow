@@ -2,11 +2,11 @@ static main⊂⊃ /
   ~true ← ⊤:
   ~false ← ⊥:
 
-  ¿ ~true && (✎ |should not happen|) ? /
+  ¿ ~true || (✎ |should happen|) ? /
     ✎ |works|:
   \
 
-  ¿ ~false && (✎ |should happen|) ? /
-    ✎ |works|:
+  ¿ ~false || (✎ |should not happen|) ? /
+    ✎ |WRONG!!|:
   \
 \
