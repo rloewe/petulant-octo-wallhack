@@ -82,7 +82,15 @@ expr =
 
   where
     binOpChain = assignment
-    assignment = chainr1 equal (symbol "←" >> return Ast.Assign)
+    assignment = chainr1 or (symbol "←" >> return Ast.Assign)
+    or = chainl1 and binOp
+      where binOp = (symbol "||" >> return orToIf)
+            orToIf :: Ast.Expr -> Ast.Expr -> Ast.Expr
+            orToIf e1 e2 = Ast.If (e1) [e2] [Ast.TroolLit Ast.No]
+    and = chainl1 equal binOp
+      where binOp = (symbol "&&" >> return andToIf)
+            andToIf :: Ast.Expr -> Ast.Expr -> Ast.Expr
+            andToIf e1 e2 = Ast.If (e1) [Ast.TroolLit Ast.Yes] [e2]
     equal = chainl1 notEqual (symbol "=" >> return Ast.Equal)
     notEqual = chainl1 lessgreater (symbol "≠" >> return Ast.NotEqual)
     lessgreater = chainl1 strConcat binOp
@@ -97,17 +105,9 @@ expr =
     plusminus = chainl1 timesdivide binOp
       where binOp = (symbol "+" >> return Ast.Plus) <|>
                     (symbol "-" >> return Ast.Minus)
-    timesdivide = chainl1 or binOp
+    timesdivide = chainl1 parseRealThing binOp
       where binOp = (symbol "*" >> return Ast.Times) <|>
                     (symbol "/" >> return Ast.Divide)
-    or = chainl1 and binOp
-      where binOp = (symbol "||" >> return orToIf)
-            orToIf :: Ast.Expr -> Ast.Expr -> Ast.Expr
-            orToIf e1 e2 = Ast.If (e1) [e2] [Ast.TroolLit Ast.No]
-    and = chainl1 parseRealThing binOp
-      where binOp = (symbol "&&" >> return andToIf)
-            andToIf :: Ast.Expr -> Ast.Expr -> Ast.Expr
-            andToIf e1 e2 = Ast.If (e1) [Ast.TroolLit Ast.Yes] [e2]
 
             parseRealThing =
                          try arrayIndex
