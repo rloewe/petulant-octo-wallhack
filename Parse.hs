@@ -84,11 +84,11 @@ expr =
     binOpChain = assignment
     assignment = chainr1 or (symbol "←" >> return Ast.Assign)
     or = chainl1 and binOp
-      where binOp = (symbol "||" >> return orToIf)
+      where binOp = (symbol "∨" >> return orToIf)
             orToIf :: Ast.Expr -> Ast.Expr -> Ast.Expr
             orToIf e1 e2 = Ast.If (e1) [e2] [Ast.TroolLit Ast.No]
     and = chainl1 equal binOp
-      where binOp = (symbol "&&" >> return andToIf)
+      where binOp = (symbol "∧" >> return andToIf)
             andToIf :: Ast.Expr -> Ast.Expr -> Ast.Expr
             andToIf e1 e2 = Ast.If (e1) [Ast.TroolLit Ast.Yes] [e2]
     equal = chainl1 notEqual (symbol "=" >> return Ast.Equal)
