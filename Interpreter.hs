@@ -188,6 +188,10 @@ evalExpr vtab ftab expr = case expr of
     writeValue value
     return (ValueTroolean CouldHappen, vtab')
 
+  Read -> do
+    result <- getLine
+    return (ValueString result, vtab)
+
   -- NOTE: Calls right now just giveback the last statement
   --       This should probably be changed once we have proper giveback
   Call argExprs fname -> do

@@ -30,6 +30,7 @@ Expr       -> '⊤'
 Expr       -> '⟛'
 Expr       -> String
 Expr       -> '✎' Expr
+Expr       -> '📖'
 Expr       -> 'giveback' Expr
 Expr       -> '↜' Expr
 String     -> '|' [stuff] '|'

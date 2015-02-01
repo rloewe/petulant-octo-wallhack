@@ -1,67 +1,7 @@
-static add⊂~a, ~b⊃ /
-  ↜ ~a + ~b:
-\
-
 static main⊂⊃ /
-  ~foo ← 1:
-  ~bar ← |bar|:
-  ~two_foos ← ~foo * 2:
-  ~with_newline ← |Hello 'n' world|:
-  ~with_pipe ← ~with_newline ↔ |!!|:
+  ✎ |Please write something:|:
+  ~x ← 📖:
 
-  ⊂1, 2⊃ ↝ add:
-  ⊂⊂1, 2⊃ ↝ add, 10⊃ ↝ add:
-  ✎ ⊂⊂1, 2⊃ ↝ add, 10⊃ ↝ add:
-
-  ¿ ~foo = ⊤ ? /
-    ~bar:
-  \
-
-  ¿ ~foo ≠ ⊤ ? /
-    ~bar:
-  \ ! /
-    ~foo:
-    ✎ ⊂⊂1, 2⊃ ↝ add, 10⊃ ↝ add:
-  \
-
-  ~something_true ← ⊤:
-  ~something_false ← ⊥:
-  ¿ ⊤ ? /
-    ✎ |the true branch|:
-  \ ! /
-    ✎ |the else branch|:
-  \
-
-  ¿ 1 ? / 123: \
-
-  ¿ ~something_true ? /
-    ~bar:
-  \ ! /
-    ✎ |its false!|:
-  \
-
-  ~i ← 0:
-  ⟳ ~i < 10 ? /
-    ✎ |Looping again|:
-    ~i ← ~i + 1:
-  \
-
-  ~array ← #1,2,3:
-  5(~array):
-
-  ~something_maybe ← ⟛:
-
-  ~j ← 0:
-  ⟳ ~j < |hej| ? /
-    ¿ ~something_maybe ? /
-      ✎ |maybe was true|:
-    \ ! /
-      ✎ |maybe was false!|:
-    \
-    ~j ← ~j + 1:
-  \
-  ✎ #1,2,3,4,5:
-  ✎ 123:
-  ✎ #1,~a ← (#2,3,4),(#~a, ~a):
-  ✎ #1,~a ← 2,~a:
+  ✎ |You wrote:|:
+  ✎ ~x:
 \

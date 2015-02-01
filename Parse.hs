@@ -109,6 +109,7 @@ expr =
                          <|> string
                          <|> variable
                          <|> call
+                         <|> parseRead
     trool = (symbol "⊥" >> return (Ast.TroolLit Ast.No)) <|>
             (symbol "⊤" >> return (Ast.TroolLit Ast.Yes)) <|>
             (symbol "⟛" >> return (Ast.TroolLit Ast.CouldHappen))
@@ -130,6 +131,9 @@ expr =
       symbol "✎"
       e <- expr
       return $ Ast.Write e
+    parseRead = do
+      symbol "📖"
+      return Ast.Read
     variable = do
       id <- identifier
       return $ Ast.Var id

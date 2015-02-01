@@ -34,6 +34,7 @@ data Expr = Assign Expr Expr -- done
           | Var Variable -- done
           | ArrayIndex Expr Expr -- done
           | Write Expr -- done
+          | Read -- done
           | GiveBack Expr -- done
           | Constant Value
           | ArrayLit [Expr] -- done
