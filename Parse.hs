@@ -1,6 +1,7 @@
 
 module Parse
 ( program
+, expr
 ) where
 
 import Control.Applicative hiding (many, (<|>))
