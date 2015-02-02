@@ -2,6 +2,10 @@
 
 module Interpreter
 ( interpret
+, SymTab
+, FunTab
+, evalExpr
+, writeValue
 ) where
 
 import PowAST
